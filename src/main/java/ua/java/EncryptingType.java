@@ -1,7 +1,7 @@
-package org.example.fileservice;
+package ua.java;
 
 public enum EncryptingType {
     ENCRYPT,
     DECRYPT,
-    BRUTEFORCE
+    BRUTE_FORCE
 }

@@ -1,18 +1,23 @@
-package org.example.fileservice;
+package ua.java;
 
-import org.example.caesarcypher.CaesarCypher;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class FileReaderWriter {
-    public void Encoder(EncryptingType type, String sourcePath, int key) {
+public class FileEncoderService {
+    private final CaesarCypher caesarCypher;
+
+    public FileEncoderService(CaesarCypher caesarCypher){
+        this.caesarCypher = caesarCypher;
+    }
+
+    public void encodeFile(String sourcePath, EncryptingType type, int key) {
         try {
             createAndWriteToNewFile(sourcePath, type, key);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -29,7 +34,7 @@ public class FileReaderWriter {
              BufferedWriter writer = Files.newBufferedWriter(destPath)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String encryptedLine = Encryption(line, type, key);
+                String encryptedLine = getEncryptingType(line, type, key);
                 writer.write(encryptedLine);
                 writer.newLine();
             }
@@ -41,11 +46,10 @@ public class FileReaderWriter {
         return oldFileName.substring(0, dotIndex) + "[" + type + "ED" + "]" + oldFileName.substring(dotIndex);
     }
 
-    public String Encryption(String line, EncryptingType type, int key) {
-        CaesarCypher cypher = new CaesarCypher();
-         return switch (type) {
-            case ENCRYPT -> cypher.Encrypt(line, key);
-            case DECRYPT -> cypher.Decrypt(line, key);
+    public String getEncryptingType(String line, EncryptingType type, int key) {
+        return switch (type) {
+            case ENCRYPT -> caesarCypher.encrypt(line, key);
+            case DECRYPT -> caesarCypher.decrypt(line, key);
             default -> line;
         };
     }
