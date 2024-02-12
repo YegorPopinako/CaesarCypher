@@ -1,4 +1,4 @@
-package ua.java;
+package ua.java.caesar.alphabets;
 
 import java.util.ArrayList;
 import java.util.Arrays;

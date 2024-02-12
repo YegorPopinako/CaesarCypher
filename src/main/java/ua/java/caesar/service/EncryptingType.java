@@ -1,4 +1,4 @@
-package ua.java;
+package ua.java.caesar.service;
 
 public enum EncryptingType {
     ENCRYPT,

@@ -1,9 +1,18 @@
-package ua.java;
+package ua.java.caesar.caesarcypher;
+
+import ua.java.caesar.alphabets.Alphabet;
 
 import java.util.List;
 
+
 public class CaesarCypher {
-    private final List<Character> alphabet;
+    final List<Character> alphabet;
+
+    private final BruteForce bruteForce = new BruteForce();
+
+    public CaesarCypher() {
+        this(Alphabet.ALPHABET);
+    }
 
     public CaesarCypher(List<Character> alphabet) {
         this.alphabet = alphabet;
@@ -17,12 +26,8 @@ public class CaesarCypher {
         return encode(string, -key);
     }
 
-    public String bruteForce(String string) {
-        StringBuilder decryptedText = new StringBuilder();
-        for (int key = 0; key < alphabet.size(); key++) {
-            decryptedText.append("Key ").append(key).append(": ").append(decrypt(string, key)).append("\n");
-        }
-        return decryptedText.toString();
+    public void bruteForce(CaesarCypher caesarCypher, String sourcePath) {
+        bruteForce.writePossibleDecryptionsWithKeys(caesarCypher, sourcePath);
     }
 
     private String encode(String string, int key) {
@@ -31,7 +36,7 @@ public class CaesarCypher {
             for (Character character : alphabet) {
                 if (charArray[i] == character) {
                     int newIndex = (alphabet.indexOf(character) + key + alphabet.size()) % alphabet.size();
-                    char replaced = setCaseToCharacter(charArray[i] ,newIndex);
+                    char replaced = setCaseToCharacter(charArray[i], newIndex);
                     charArray[i] = replaced;
                     break;
                 }
@@ -42,7 +47,7 @@ public class CaesarCypher {
 
     private char setCaseToCharacter(char character, int newIndex) {
         char replaced = character;
-        if(Character.isUpperCase(character)) {
+        if (Character.isUpperCase(character)) {
             replaced = alphabet.get(newIndex);
             Character.toUpperCase(replaced);
         } else if (Character.isLowerCase(character)) {
