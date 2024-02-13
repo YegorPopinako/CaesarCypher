@@ -1,21 +1,15 @@
 package ua.java.caesar.caesarcypher;
 
-import ua.java.caesar.caesarcypher.CaesarCypher;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class BruteForce {
     private final Map<Character, Integer> mostUsedLetters = new HashMap<>();
 
-    private char mostFrequentLetterInSource = '\0';
-    private final List<Integer> bestKeys = new ArrayList<>();
     public BruteForce() {
         mostUsedLetters.put('e', 0);
         mostUsedLetters.put('t', 0);
@@ -24,18 +18,35 @@ public class BruteForce {
 
 
     public void writePossibleDecryptionsWithKeys(CaesarCypher caesarCypher, String sourcePath) {
+        String newFileName = getNewFileName(sourcePath);
+        byte[] bytes = readAllBytes(sourcePath);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        decryptWithPassingKeys(caesarCypher, bytes, outputStream);
+        writeDecryprions(newFileName, outputStream);
+    }
+
+    private void writeDecryprions(String newFileName, ByteArrayOutputStream outputStream) {
+        try {
+            Files.write(Paths.get(newFileName), outputStream.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private byte[] readAllBytes(String sourcePath) {
         byte[] bytes;
-        char mostFrequentDecryptedLetter;
         try {
             bytes = Files.readAllBytes(Paths.get(sourcePath));
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return null;
         }
-        mostFrequentLetterInSource = findMostFrequentLetter(bytes);
+        return bytes;
+    }
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
+    private void decryptWithPassingKeys(CaesarCypher caesarCypher, byte[] bytes, ByteArrayOutputStream outputStream) {
+        char mostFrequentDecryptedLetter;
         for (int key = 0; key < caesarCypher.alphabet.size(); key++) {
             String decryptedText = decryptTextWithKey(caesarCypher, bytes, key);
             mostFrequentDecryptedLetter = findMostFrequentLetter(decryptedText.getBytes());
@@ -44,13 +55,13 @@ public class BruteForce {
                     outputStream.write(("Decrypted text with key " + key + ":\n").getBytes());
                     outputStream.write(decryptedText.getBytes());
                     outputStream.write("\n".getBytes());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }
-        System.out.println(outputStream.toString());
     }
+
     private char findMostFrequentLetter(byte[] bytes) {
         Map<Character, Integer> characterFrequencyFromFile = new HashMap<>();
         char mostFrequentLetter = '\0';
@@ -59,11 +70,10 @@ public class BruteForce {
         String content = new String(bytes);
         for (char c : content.toCharArray()) {
             if (Character.isLetter(c)) {
-                char lowercaseChar = Character.toLowerCase(c);
-                characterFrequencyFromFile.put(lowercaseChar, characterFrequencyFromFile.getOrDefault(lowercaseChar, 0) + 1);
-                int frequency = characterFrequencyFromFile.get(lowercaseChar);
+                characterFrequencyFromFile.put(c, characterFrequencyFromFile.getOrDefault(c, 0) + 1);
+                int frequency = characterFrequencyFromFile.get(c);
                 if (frequency > maxFrequency) {
-                    mostFrequentLetter = lowercaseChar;
+                    mostFrequentLetter = c;
                     maxFrequency = frequency;
                 }
             }
@@ -73,7 +83,22 @@ public class BruteForce {
 
     private String decryptTextWithKey(CaesarCypher caesarCypher, byte[] bytes, int key) {
         String content = new String(bytes);
-        return caesarCypher.decrypt(content, key);
+        StringBuilder decryptedText = new StringBuilder();
+        for (int i = 0; i < content.length(); i++) {
+            char originalChar = content.charAt(i);
+            char decryptedChar;
+            if (Character.isLetter(originalChar)) {
+                char lowercaseChar = Character.toLowerCase(originalChar);
+                int index = caesarCypher.alphabet.indexOf(lowercaseChar);
+                int decryptedIndex = (index - key + caesarCypher.alphabet.size()) % caesarCypher.alphabet.size();
+                char decryptedLowercaseChar = caesarCypher.alphabet.get(decryptedIndex);
+                decryptedChar = Character.toLowerCase(decryptedLowercaseChar);
+            } else {
+                decryptedChar = originalChar;
+            }
+            decryptedText.append(decryptedChar);
+        }
+        return decryptedText.toString();
     }
 
     private String getNewFileName(String oldFileName) {

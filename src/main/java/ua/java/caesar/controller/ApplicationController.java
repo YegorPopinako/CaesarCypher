@@ -18,14 +18,15 @@ public class ApplicationController {
         consoleViewProvider.print("executing...:");
 
         EncryptingType action = EncryptingType.valueOf(args[0]);
-        String filePath = args[1];
+        String filePath = convertBackslashesToForward(args[1]);
+        System.out.println(filePath);
         int key = (args.length == 3) ? Integer.parseInt(args[2]) : 0;
 
         fileProcessor.cypherFile(action, filePath, key);
     }
 
     private void validateParameters(String[] args) {
-        if(isValidArguments(args)) {
+        if(!isValidArguments(args)) {
             throw new IllegalArgumentException("Incorrect number of arguments");
         }
 
@@ -46,6 +47,10 @@ public class ApplicationController {
     }
 
     private boolean isValidArguments(String[] args) {
-        return args.length != 2 || args.length != 3;
+        return (args.length == 2 || args.length == 3);
+    }
+
+    public static String convertBackslashesToForward(String filePath) {
+        return filePath.replace("\\", "/").replace("?", "");
     }
 }
