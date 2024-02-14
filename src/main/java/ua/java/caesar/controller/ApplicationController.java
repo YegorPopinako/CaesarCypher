@@ -18,8 +18,7 @@ public class ApplicationController {
         CONSOLE_VIEW_PROVIDER.print("executing...:");
 
         EncryptingType action = EncryptingType.valueOf(args[0]);
-        String filePath = convertBackslashesToForward(args[1]);
-        System.out.println(filePath);
+        String filePath = fixFilePath(args[1]);
         int key = (args.length == 3) ? Integer.parseInt(args[2]) : 0;
 
         FILE_PROCESSOR.cypherFile(action, filePath, key);
@@ -50,7 +49,7 @@ public class ApplicationController {
         return (args.length == 2 || args.length == 3);
     }
 
-    public static String convertBackslashesToForward(String filePath) {
+    public static String fixFilePath(String filePath) {
         return filePath.replace("\\", "/").replace("?", "");
     }
 }
