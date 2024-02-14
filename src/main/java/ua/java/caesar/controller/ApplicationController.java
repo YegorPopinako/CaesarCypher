@@ -5,24 +5,24 @@ import ua.java.caesar.service.FileProcessor;
 import ua.java.caesar.view.ConsoleViewProvider;
 
 public class ApplicationController {
-    private final FileProcessor fileProcessor;
-    private final ConsoleViewProvider consoleViewProvider;
+    private final FileProcessor FILE_PROCESSOR;
+    private final ConsoleViewProvider CONSOLE_VIEW_PROVIDER;
     public ApplicationController(FileProcessor fileProcessor, ConsoleViewProvider consoleViewProvider) {
-        this.fileProcessor = fileProcessor;
-        this.consoleViewProvider = consoleViewProvider;
+        this.FILE_PROCESSOR = fileProcessor;
+        this.CONSOLE_VIEW_PROVIDER = consoleViewProvider;
     }
 
     public void execute(String[] args) {
         validateParameters(args);
-        consoleViewProvider.print("parameters are valid");
-        consoleViewProvider.print("executing...:");
+        CONSOLE_VIEW_PROVIDER.print("parameters are valid");
+        CONSOLE_VIEW_PROVIDER.print("executing...:");
 
         EncryptingType action = EncryptingType.valueOf(args[0]);
         String filePath = convertBackslashesToForward(args[1]);
         System.out.println(filePath);
         int key = (args.length == 3) ? Integer.parseInt(args[2]) : 0;
 
-        fileProcessor.cypherFile(action, filePath, key);
+        FILE_PROCESSOR.cypherFile(action, filePath, key);
     }
 
     private void validateParameters(String[] args) {

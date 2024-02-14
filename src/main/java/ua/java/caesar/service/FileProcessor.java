@@ -10,16 +10,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileProcessor {
-    private final CaesarCypher caesarCypher;
+    private final CaesarCypher CAESAR_CYPHER;
 
     public FileProcessor(CaesarCypher caesarCypher){
-        this.caesarCypher = caesarCypher;
+        this.CAESAR_CYPHER = caesarCypher;
     }
 
 
     public void cypherFile(EncryptingType type, String sourcePath, int key) {
         if (type == EncryptingType.BRUTE_FORCE){
-            bruteForce(caesarCypher, sourcePath);
+            bruteForce(CAESAR_CYPHER, sourcePath);
         }
         else{
             try {
@@ -72,8 +72,8 @@ public class FileProcessor {
 
     private String getEncryptingType(String line, EncryptingType type, int key) {
         return switch (type) {
-            case ENCRYPT -> caesarCypher.encrypt(line, key);
-            case DECRYPT -> caesarCypher.decrypt(line, key);
+            case ENCRYPT -> CAESAR_CYPHER.encrypt(line, key);
+            case DECRYPT -> CAESAR_CYPHER.decrypt(line, key);
             default -> line;
         };
     }

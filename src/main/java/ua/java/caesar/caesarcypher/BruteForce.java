@@ -8,12 +8,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BruteForce {
-    private final Map<Character, Integer> mostUsedLetters = new HashMap<>();
+    private final Map<Character, Integer> MOST_USED_LETTERS = new HashMap<>();
 
     public BruteForce() {
-        mostUsedLetters.put('e', 0);
-        mostUsedLetters.put('t', 0);
-        mostUsedLetters.put('a', 0);
+        MOST_USED_LETTERS.put('e', 0);
+        MOST_USED_LETTERS.put('t', 0);
+        MOST_USED_LETTERS.put('a', 0);
     }
 
 
@@ -47,10 +47,10 @@ public class BruteForce {
 
     private void decryptWithPassingKeys(CaesarCypher caesarCypher, byte[] bytes, ByteArrayOutputStream outputStream) {
         char mostFrequentDecryptedLetter;
-        for (int key = 0; key < caesarCypher.alphabet.size(); key++) {
+        for (int key = 0; key < caesarCypher.ALPHABET.size(); key++) {
             String decryptedText = decryptTextWithKey(caesarCypher, bytes, key);
             mostFrequentDecryptedLetter = findMostFrequentLetter(decryptedText.getBytes());
-            if (mostUsedLetters.containsKey(mostFrequentDecryptedLetter)) {
+            if (MOST_USED_LETTERS.containsKey(mostFrequentDecryptedLetter)) {
                 try {
                     outputStream.write(("Decrypted text with key " + key + ":\n").getBytes());
                     outputStream.write(decryptedText.getBytes());
@@ -89,9 +89,9 @@ public class BruteForce {
             char decryptedChar;
             if (Character.isLetter(originalChar)) {
                 char lowercaseChar = Character.toLowerCase(originalChar);
-                int index = caesarCypher.alphabet.indexOf(lowercaseChar);
-                int decryptedIndex = (index - key + caesarCypher.alphabet.size()) % caesarCypher.alphabet.size();
-                char decryptedLowercaseChar = caesarCypher.alphabet.get(decryptedIndex);
+                int index = caesarCypher.ALPHABET.indexOf(lowercaseChar);
+                int decryptedIndex = (index - key + caesarCypher.ALPHABET.size()) % caesarCypher.ALPHABET.size();
+                char decryptedLowercaseChar = caesarCypher.ALPHABET.get(decryptedIndex);
                 decryptedChar = Character.toLowerCase(decryptedLowercaseChar);
             } else {
                 decryptedChar = originalChar;
