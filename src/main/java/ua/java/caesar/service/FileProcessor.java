@@ -19,7 +19,7 @@ public class FileProcessor {
 
     public void cypherFile(EncryptingType type, String sourcePath, int key) {
         if (type == EncryptingType.BRUTE_FORCE){
-            bruteForce(CAESAR_CYPHER, sourcePath);
+            bruteForce(sourcePath);
         }
         else{
             try {
@@ -30,8 +30,8 @@ public class FileProcessor {
         }
     }
 
-    private void bruteForce(CaesarCypher caesarCypher, String filePath){
-        caesarCypher.bruteForce(caesarCypher, filePath);
+    private void bruteForce(String filePath){
+        CAESAR_CYPHER.bruteForce(filePath);
     }
 
     private void createAndWriteToNewFile(String sourcePath, EncryptingType type, int key) throws IOException {

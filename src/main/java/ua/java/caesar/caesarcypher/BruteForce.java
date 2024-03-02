@@ -10,9 +10,9 @@ import java.util.Map;
 
 public class BruteForce {
     private final List<Character> MOST_USED_LETTERS = List.of('e', 't', 'a');
+    CaesarCypher caesarCypher = new CaesarCypher();
 
-
-    public void writePossibleDecryptionsWithKeys(CaesarCypher caesarCypher, String sourcePath) {
+    public void writePossibleDecryptionsWithKeys(String sourcePath) {
         String newFileName = getNewFileName(sourcePath);
         byte[] bytes = readAllBytes(sourcePath);
 
@@ -45,7 +45,7 @@ public class BruteForce {
         for (int key = 0; key < caesarCypher.ALPHABET.size(); key++) {
             String decryptedText = decryptTextWithKey(caesarCypher, bytes, key);
             mostFrequentDecryptedLetter = findMostFrequentLetter(decryptedText.getBytes());
-            if (MOST_USED_LETTERS.containsKey(mostFrequentDecryptedLetter)) {
+            if (MOST_USED_LETTERS.contains(mostFrequentDecryptedLetter)) {
                 try {
                     outputStream.write(("Decrypted text with key " + key + ":\n").getBytes());
                     outputStream.write(decryptedText.getBytes());

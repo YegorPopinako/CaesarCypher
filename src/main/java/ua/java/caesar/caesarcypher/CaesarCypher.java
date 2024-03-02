@@ -26,8 +26,8 @@ public class CaesarCypher {
         return encode(string, -key);
     }
 
-    public void bruteForce(CaesarCypher caesarCypher, String sourcePath) {
-        BRUTEFORCE.writePossibleDecryptionsWithKeys(caesarCypher, sourcePath);
+    public void bruteForce(String sourcePath) {
+        BRUTEFORCE.writePossibleDecryptionsWithKeys(sourcePath);
     }
 
     private String encode(String string, int key) {
