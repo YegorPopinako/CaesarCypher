@@ -5,16 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BruteForce {
-    private final Map<Character, Integer> MOST_USED_LETTERS = new HashMap<>();
-
-    public BruteForce() {
-        MOST_USED_LETTERS.put('e', 0);
-        MOST_USED_LETTERS.put('t', 0);
-        MOST_USED_LETTERS.put('a', 0);
-    }
+    private final List<Character> MOST_USED_LETTERS = List.of('e', 't', 'a');
 
 
     public void writePossibleDecryptionsWithKeys(CaesarCypher caesarCypher, String sourcePath) {
