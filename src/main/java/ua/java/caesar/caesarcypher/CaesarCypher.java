@@ -6,8 +6,7 @@ import java.util.List;
 
 
 public class CaesarCypher {
-    final List<Character> ALPHABET;
-
+    private final List<Character> ALPHABET;
     private final BruteForce BRUTEFORCE = new BruteForce();
 
     public CaesarCypher() {
@@ -29,6 +28,11 @@ public class CaesarCypher {
     public void bruteForce(String sourcePath) {
         BRUTEFORCE.writePossibleDecryptionsWithKeys(sourcePath);
     }
+
+    public List<Character> getALPHABET() {
+        return ALPHABET;
+    }
+
 
     private String encode(String string, int key) {
         char[] charArray = string.toCharArray();
@@ -56,4 +60,5 @@ public class CaesarCypher {
         }
         return replaced;
     }
+
 }

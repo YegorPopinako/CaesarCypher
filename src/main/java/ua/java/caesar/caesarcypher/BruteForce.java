@@ -41,7 +41,7 @@ public class BruteForce {
 
     private void decryptWithPassingKeys(CaesarCypher caesarCypher, byte[] bytes, ByteArrayOutputStream outputStream) {
         char mostFrequentDecryptedLetter;
-        for (int key = 0; key < caesarCypher.ALPHABET.size(); key++) {
+        for (int key = 0; key < caesarCypher.getALPHABET().size(); key++) {
             String decryptedText = decryptTextWithKey(caesarCypher, bytes, key);
             mostFrequentDecryptedLetter = findMostFrequentLetter(decryptedText.getBytes());
             if (MOST_USED_LETTERS.contains(mostFrequentDecryptedLetter)) {
@@ -83,9 +83,9 @@ public class BruteForce {
             char decryptedChar;
             if (Character.isLetter(originalChar)) {
                 char lowercaseChar = Character.toLowerCase(originalChar);
-                int index = caesarCypher.ALPHABET.indexOf(lowercaseChar);
-                int decryptedIndex = (index - key + caesarCypher.ALPHABET.size()) % caesarCypher.ALPHABET.size();
-                char decryptedLowercaseChar = caesarCypher.ALPHABET.get(decryptedIndex);
+                int index = caesarCypher.getALPHABET().indexOf(lowercaseChar);
+                int decryptedIndex = (index - key + caesarCypher.getALPHABET().size()) % caesarCypher.getALPHABET().size();
+                char decryptedLowercaseChar = caesarCypher.getALPHABET().get(decryptedIndex);
                 decryptedChar = Character.toLowerCase(decryptedLowercaseChar);
             } else {
                 decryptedChar = originalChar;
