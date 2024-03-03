@@ -16,7 +16,6 @@ public class FileProcessor {
         this.caesarCypher = caesarCypher;
     }
 
-
     public void cypherFile(EncryptingType type, String sourcePath, int key) {
         if (type == EncryptingType.BRUTE_FORCE){
             bruteForce(sourcePath);

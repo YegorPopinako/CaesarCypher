@@ -7,6 +7,7 @@ import ua.java.caesar.view.ConsoleViewProvider;
 public class ApplicationController {
     private final FileProcessor fileProcessor;
     private final ConsoleViewProvider consoleViewProvider;
+
     public ApplicationController(FileProcessor fileProcessor, ConsoleViewProvider consoleViewProvider) {
         this.fileProcessor = fileProcessor;
         this.consoleViewProvider = consoleViewProvider;
