@@ -50,7 +50,7 @@ public class BruteForce {
                     outputStream.write(decryptedText.getBytes());
                     outputStream.write("\n".getBytes());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException("Error writing decrypted text", e);
                 }
             }
         }
