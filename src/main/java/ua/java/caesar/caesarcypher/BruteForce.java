@@ -34,8 +34,7 @@ public class BruteForce {
         try {
             bytes = Files.readAllBytes(Paths.get(sourcePath));
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
         return bytes;
     }
