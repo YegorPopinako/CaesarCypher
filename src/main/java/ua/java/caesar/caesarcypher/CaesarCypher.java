@@ -6,15 +6,15 @@ import java.util.List;
 
 
 public class CaesarCypher {
-    private final List<Character> ALPHABET;
-    private final BruteForce BRUTEFORCE = new BruteForce();
+    private final List<Character> alphabet;
+    private final BruteForce bruteForce = new BruteForce();
 
     public CaesarCypher() {
         this(Alphabet.ALPHABET);
     }
 
     public CaesarCypher(List<Character> alphabet) {
-        this.ALPHABET = alphabet;
+        this.alphabet = alphabet;
     }
 
     public String encrypt(String string, int key) {
@@ -26,20 +26,20 @@ public class CaesarCypher {
     }
 
     public void bruteForce(String sourcePath) {
-        BRUTEFORCE.writePossibleDecryptionsWithKeys(sourcePath);
+        bruteForce.writePossibleDecryptionsWithKeys(sourcePath);
     }
 
-    public List<Character> getALPHABET() {
-        return ALPHABET;
+    public List<Character> getAlphabet() {
+        return alphabet;
     }
 
 
     private String encode(String string, int key) {
         char[] charArray = string.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
-            for (Character character : ALPHABET) {
+            for (Character character : alphabet) {
                 if (charArray[i] == character) {
-                    int newIndex = (ALPHABET.indexOf(character) + key + ALPHABET.size()) % ALPHABET.size();
+                    int newIndex = (alphabet.indexOf(character) + key + alphabet.size()) % alphabet.size();
                     char replaced = setCaseToCharacter(charArray[i], newIndex);
                     charArray[i] = replaced;
                     break;
@@ -52,10 +52,10 @@ public class CaesarCypher {
     private char setCaseToCharacter(char character, int newIndex) {
         char replaced = character;
         if (Character.isUpperCase(character)) {
-            replaced = ALPHABET.get(newIndex);
+            replaced = alphabet.get(newIndex);
             Character.toUpperCase(replaced);
         } else if (Character.isLowerCase(character)) {
-            replaced = ALPHABET.get(newIndex);
+            replaced = alphabet.get(newIndex);
             Character.toLowerCase(replaced);
         }
         return replaced;

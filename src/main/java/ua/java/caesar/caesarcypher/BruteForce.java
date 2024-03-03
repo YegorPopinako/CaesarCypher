@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BruteForce {
-    private final List<Character> MOST_USED_LETTERS = List.of('e', 't', 'a');
+    private final List<Character> mostUsedLetters = List.of('e', 't', 'a');
     CaesarCypher caesarCypher = new CaesarCypher();
 
     public void writePossibleDecryptionsWithKeys(String sourcePath) {
@@ -41,10 +41,10 @@ public class BruteForce {
 
     private void decryptWithPassingKeys(CaesarCypher caesarCypher, byte[] bytes, ByteArrayOutputStream outputStream) {
         char mostFrequentDecryptedLetter;
-        for (int key = 0; key < caesarCypher.getALPHABET().size(); key++) {
+        for (int key = 0; key < caesarCypher.getAlphabet().size(); key++) {
             String decryptedText = decryptTextWithKey(caesarCypher, bytes, key);
             mostFrequentDecryptedLetter = findMostFrequentLetter(decryptedText.getBytes());
-            if (MOST_USED_LETTERS.contains(mostFrequentDecryptedLetter)) {
+            if (mostUsedLetters.contains(mostFrequentDecryptedLetter)) {
                 try {
                     outputStream.write(("Decrypted text with key " + key + ":\n").getBytes());
                     outputStream.write(decryptedText.getBytes());
@@ -83,9 +83,9 @@ public class BruteForce {
             char decryptedChar;
             if (Character.isLetter(originalChar)) {
                 char lowercaseChar = Character.toLowerCase(originalChar);
-                int index = caesarCypher.getALPHABET().indexOf(lowercaseChar);
-                int decryptedIndex = (index - key + caesarCypher.getALPHABET().size()) % caesarCypher.getALPHABET().size();
-                char decryptedLowercaseChar = caesarCypher.getALPHABET().get(decryptedIndex);
+                int index = caesarCypher.getAlphabet().indexOf(lowercaseChar);
+                int decryptedIndex = (index - key + caesarCypher.getAlphabet().size()) % caesarCypher.getAlphabet().size();
+                char decryptedLowercaseChar = caesarCypher.getAlphabet().get(decryptedIndex);
                 decryptedChar = Character.toLowerCase(decryptedLowercaseChar);
             } else {
                 decryptedChar = originalChar;

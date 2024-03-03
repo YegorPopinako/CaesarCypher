@@ -10,10 +10,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileProcessor {
-    private final CaesarCypher CAESAR_CYPHER;
+    private final CaesarCypher caesarCypher;
 
     public FileProcessor(CaesarCypher caesarCypher){
-        this.CAESAR_CYPHER = caesarCypher;
+        this.caesarCypher = caesarCypher;
     }
 
 
@@ -31,7 +31,7 @@ public class FileProcessor {
     }
 
     private void bruteForce(String filePath){
-        CAESAR_CYPHER.bruteForce(filePath);
+        caesarCypher.bruteForce(filePath);
     }
 
     private void createAndWriteToNewFile(String sourcePath, EncryptingType type, int key) throws IOException {
@@ -72,8 +72,8 @@ public class FileProcessor {
 
     private String getEncryptingType(String line, EncryptingType type, int key) {
         return switch (type) {
-            case ENCRYPT -> CAESAR_CYPHER.encrypt(line, key);
-            case DECRYPT -> CAESAR_CYPHER.decrypt(line, key);
+            case ENCRYPT -> caesarCypher.encrypt(line, key);
+            case DECRYPT -> caesarCypher.decrypt(line, key);
             default -> line;
         };
     }
